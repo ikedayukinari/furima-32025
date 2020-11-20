@@ -2,68 +2,70 @@
 
 ## users テーブル
 
-| Column           | Type   | Options     |
-| ---------------- | ------ | ----------- |
-| name             | string | null: false |
-| email            | string | null: false |
-| password         | string | null: false |
-| first_name       | string | null: false |
-| last_name        | string | null: false |
-| first_name_kana  | string | null: false |
-| last_name_kana   | string | null: false |
-| birthday         | date   | null: false |
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| name               | string | null: false |
+| email              | string | null: false |
+| encrypted_password | string | null: false |
+| first_name         | string | null: false |
+| last_name          | string | null: false |
+| first_name_kana    | string | null: false |
+| last_name_kana     | string | null: false |
+| birthday           | date   | null: false |
 
 ### Association
 
 - has_many :items
-- has_one :buyer
-- has_one :credit_card
+- has_many :purchases
 
-## buyers テーブル
-
-| Column         | Type      | Options                        |
-| -------------- | --------- | ------------------------------ |
-| postal_code    | integer   | null: false                    |
-| prefectures    | string    | null: false                    |
-| municipality   | string    | null: false                    |
-| address        | text      | null: false                    |
-| building_name  | string    |                                |
-| phone_number   | integer   | null: false                    |
-| user           | reference | null: false, foreign_key: true |
-
-### Association
-
-- belongs_to :user
-
-## credit_cards テーブル
-
-| Column           | Type       | Options                        |
-| ---------------- | ---------- | ------------------------------ |
-| number           | integer    | null: false                    |
-| expiration_date  | integer    | null: false                    |
-| security_code    | integer    | null: false                    |
-| user             | references | null: false, foreign_key: true |
-
-### Association
-
-- belongs_to :user
 
 ## items テーブル
 
-| Column            | Type        | Options                        |
-| ----------------- | ----------- | ------------------------------ |
-| image             | string      |                                |
-| name              | string      |                                |
-| description       | text        |                                |
-| category          | string      |                                |
-| condition         | string      |                                |
-| shipping_charges  | string      |                                |
-| shipping_area     | string      |                                |
-| days_to_ship      | date        |                                |
-| selling_price     | integer     |                                |
-| user              | references  | null: false, foreign_key: true |
+| Column               | Type        | Options                        |
+| -------------------- | ----------- | ------------------------------ |
+| name                 | string      | null: false                    |
+| description          | text        | null: false                    |
+| category_id          | integer     | null: false                    |
+| condition_id         | integer     | null: false                    |
+| shipping_charges_id  | integer     | null: false                    |
+| shipping_area_id     | integer     | null: false                    |
+| days_to_ship_id      | integer     | null: false                    |
+| selling_price        | integer     | null: false                    |
+| user                 | references  | null: false, foreign_key: true |
 
 
 ### Association
 
+- has_many :purchases
 - belongs_to :user
+
+
+## purchases テーブル
+
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| user             | references | null: false, foreign_key: true |
+| item             | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- belongs_to :item
+- has_one :address
+
+
+## address テーブル
+
+| Column          | Type      | Options                        |
+| --------------- | --------- | ------------------------------ |
+| postal_code     | string    | null: false                    |
+| prefectures_id  | integer   | null: false                    |
+| municipality    | string    | null: false                    |
+| house_number    | string    | null: false                    |
+| building_name   | string    |                                |
+| phone_number    | string    | null: false                    |
+| purchase        | reference | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :purchase
