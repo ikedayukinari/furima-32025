@@ -6,10 +6,14 @@ class User < ApplicationRecord
 
   with_options presence: true do # with: の後の message: 正規表現にマッチしなかった時のエラー文はいらない？
     validates :nickname
-    validates :first_name, format: { with: /\A[ぁ-んァ-ン一-龥]/ }
-    validates :last_name, format: { with: /\A[ぁ-んァ-ン一-龥]/ }
-    validates :first_name_kana, format: { with: /\A[ァ-ヶー－]+\z/ }
-    validates :last_name_kana, format: { with: /\A[ァ-ヶー－]+\z/ }
+    with_options presence: true do
+      validates :first_name, format: { with: /\A[ぁ-んァ-ン一-龥]/ }
+      validates :last_name, format: { with: /\A[ぁ-んァ-ン一-龥]/ }
+    end
+    with_options presence: true do
+      validates :first_name_kana, format: { with: /\A[ァ-ヶー－]+\z/ }
+      validates :last_name_kana, format: { with: /\A[ァ-ヶー－]+\z/ }
+    end
     validates :birthday
   end
 
