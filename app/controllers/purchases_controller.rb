@@ -1,8 +1,8 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
-  before_action :move_to_index
   before_action :find_params
-
+  before_action :move_to_index
+  
   def index
     @item_purchase = ItemPurchase.new #購入フォームへ遷移する
   end
@@ -16,8 +16,7 @@ class PurchasesController < ApplicationController
       else
         render action: :index
       end
-    #Address.create(address_params)
-    #Purchase.create(user_id: current_user.id, item_id: params[:item_id])
+    
   end
 
   private
@@ -31,7 +30,6 @@ class PurchasesController < ApplicationController
   end
 
   def move_to_index
-    @item = Item.find(params[:item_id])
     if current_user.id == @item.user_id || current_user.id && @item.purchase != nil
       redirect_to root_path
     end
