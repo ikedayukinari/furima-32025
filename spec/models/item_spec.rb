@@ -7,7 +7,7 @@ RSpec.describe Item, type: :model do
 
   describe '商品出品' do
     context '出品ができるとき' do
-      it '項目に適性に値が入っていれば出品できる' do
+      it '項目に適切に値が入っていれば出品できる' do
         expect(@item).to be_valid
       end
     end
@@ -49,22 +49,22 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include('Condition must be other than 1')
       end
       it 'shipping_charges_idが空だと登録できない' do
-        @item.shipping_charges_id = nil
+        @item.shipping_charge_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping charges can't be blank")
       end
       it 'shipping_charges_idが1だと登録できない' do
-        @item.shipping_charges_id = 1
+        @item.shipping_charge_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping charges must be other than 1')
       end
       it 'prefectures_idが空だと登録できない' do
-        @item.prefectures_id = nil
+        @item.prefecture_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefectures can't be blank")
       end
       it 'prefectures_idが1だと登録できない' do
-        @item.prefectures_id = 1
+        @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include('Prefectures must be other than 1')
       end
