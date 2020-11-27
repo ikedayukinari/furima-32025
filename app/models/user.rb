@@ -11,6 +11,7 @@ class User < ApplicationRecord
       validates :first_name
       validates :last_name
     end
+
     with_options format: { with: /\A[ァ-ヶー－]+\z/ } do
       validates :first_name_kana
       validates :last_name_kana
@@ -22,6 +23,7 @@ class User < ApplicationRecord
   validates_format_of :password, with: /([0-9].*[a-zA-Z]|[a-zA-Z].*[0-9])/
 
   has_many :items
+  has_many :purchases
 
   # validate :password_complexity  #email,passwordのバリは元々設定されていて,その内容がconfig/initializers/deviseに載っている（触ることはないが）
 

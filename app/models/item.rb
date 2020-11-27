@@ -8,6 +8,8 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
+  has_one :purchase
+  
   with_options presence: true do
     validates :image
     validates :name
@@ -32,4 +34,4 @@ end
 # include ActiveHash::Associations  ジャンルの中身のモデルにつける？
 # has_many :
 
-# validates :prefectures_id, numericality: { other_than: 1 }
+# validates :prefecture_id, numericality: { other_than: 1 }
