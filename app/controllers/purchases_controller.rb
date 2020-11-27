@@ -1,14 +1,13 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
   before_action :move_to_index
+  before_action :find_params
 
   def index
     @item_purchase = ItemPurchase.new #購入フォームへ遷移する
-    @item = Item.find(params[:item_id]) #item_idの情報を抜き出している
   end
 
   def create
-    @item = Item.find(params[:item_id]) #itemの情報を抜き出している
     @item_purchase = ItemPurchase.new(purchase_params)
       if @item_purchase.valid?
         pay_item
@@ -27,11 +26,13 @@ class PurchasesController < ApplicationController
     params.require(:item_purchase).permit(:postal_code, :prefecture_id, :municipality, :house_number, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 
+  def find_params
+    @item = Item.find(params[:item_id]) #itemの情報を抜き出している
+  end
+
   def move_to_index
     @item = Item.find(params[:item_id])
-    if current_user.id == @item.user_id
-      redirect_to root_path
-    elsif current_user.id && @item.purchase != nil
+    if current_user.id == @item.user_id || current_user.id && @item.purchase != nil
       redirect_to root_path
     end
   end
